@@ -195,6 +195,8 @@ int main()
 	//host_variables
 
 	int size = 1000;
+	int MAX_THREADS = 100;
+	int MAX_BLOCKS = ((size+MAX_THREADS-1) / MAX_THREADS); //numero de copias del kernel(funcion)
 	double* data = new double[size];
 	data[50]=108;
 
@@ -209,19 +211,22 @@ int main()
 	// quickSort(&vec,0,vec.size()-1);
 	// print_vector(vec.begin(),vec.end(),"ordenamiento secuencial");
 
+	int NO_CHUNKS = size/MAX_BLOCKS;
 	//device_variables
 	double* d_data;
+	cuda_info();
 
 	// vector<double>* result;
 	
-	HANDLE_ERROR(cudaMalloc( (void**)&d_data, size * sizeof(double) ));
-	HANDLE_ERROR(cudaMemcpy(d_data,data,size * sizeof(double),cudaMemcpyHostToDevice));
+	// HANDLE_ERROR(cudaMalloc( (void**)&d_data, size * sizeof(double) ));
+	// HANDLE_ERROR(cudaMemcpy(d_data,data,size * sizeof(double),cudaMemcpyHostToDevice));
 
-	double result[size];
-	HANDLE_ERROR(cudaMemcpy(result,d_data,size * sizeof(double),cudaMemcpyDeviceToHost));
-	print_array(&result[0],size,"data array device");
+	// double result[size];
+	// HANDLE_ERROR(cudaMemcpy(result,d_data,size * sizeof(double),cudaMemcpyDeviceToHost));
+	// print_array(&result[0],size,"data array device");
 
-	cudaFree(d_data);
+	// cudaFree(d_data);
 	
+
 	return EXIT_SUCCESS;
 }
